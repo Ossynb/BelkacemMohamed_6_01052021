@@ -2,12 +2,14 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const helmet = require('helmet');
+
 const sauceRoutes = require('./routes/sauce');
 const userRoutes = require('./routes/user');
 
 
-mongoose.connect('mongodb+srv://OCuser:OoO44UeuTzw2t9TC@clusteroc.uuh69.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+mongoose.connect('mongodb+srv://OCuser:OoO44UeuTzw2t9TC@clusteroc.uuh69.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',   // Connexion de notre API à notre cluster mongodb
   { useNewUrlParser: true,
+    useCreateIndex : true, // ajout pour regler le prob DeprecationWarning : collection.ensureIndex is deprecated.
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
@@ -32,7 +34,7 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 
-app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use('/images', express.static(path.join(__dirname, 'images')));// cela indique à Express qu'il faut gérer la ressource images de manière statique (un sous-répertoire de notre répertoire de base, __dirname ) à chaque fois qu'elle reçoit une requête vers la route /images .
 
 app.use('/', sauceRoutes);
 app.use('/api/auth', userRoutes);

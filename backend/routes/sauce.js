@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const auth = require ('../middleware/auth');
-const multer = require ('../middleware/multer-config');
+const multer = require ('../middleware/multer-config'); // permet de gérer les fichiers envoé par le front-end
 
 const sauceCtrl = require('../controllers/sauce');
 
