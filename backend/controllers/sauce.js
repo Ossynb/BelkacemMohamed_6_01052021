@@ -1,7 +1,5 @@
 const Sauce = require('../models/sauce');
 const fs = require('fs'); //fs signifie « file system » (soit « système de fichiers » en français). Il nous donne accès aux fonctions qui nous permettent de modifier le système de fichiers, y compris aux fonctions permettant de supprimer les fichiers.
-const User = require('../models/User');
-const sauce = require('../models/sauce');
 
 
 
@@ -38,7 +36,7 @@ exports.modifySauce = (req, res, next) => {
     const sauceObject = req.file ? // si req.file existe ou non. S'il existe, on traite la nouvelle image ; s'il n'existe pas, on traite simplement l'objet entrant. 
     { 
         ...JSON.parse(req.body.sauce),
-        imageUrl : `${req.protocol}://${req.get('host')}/images/${req.file.filename}` 
+        imageUrl : `${req.protocol}://${req.get('host')}/images/${req.file.filename}` //Nous utilisons req.protocol pour obtenir le premier segment (dans notre cas 'http' ). Nous ajoutons '://' , puis utilisons req.get('host') pour résoudre l'hôte du serveur (ici, 'localhost:3000' ). Nous ajoutons finalement '/images/' et le nom de fichier pour compléter notre URL.
     } : { ...req.body};
     Sauce.updateOne({ _id: req.params.id}, { ...sauceObject, _id: req.params.id})    //on met à jour la base donnée avec updateOne() 1er argument:l'objet à modifier, 2eme argument : nouvel objet
         .then(() => res.status(200).json({ message: 'Sauce modifiée !'}))
